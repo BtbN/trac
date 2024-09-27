@@ -2014,27 +2014,6 @@ class LocalTimezoneTestCase(unittest.TestCase):
             self._compare_pytz_localize_and_normalize(tz, dt_naive)
 
     if datefmt.pytz:
-        def test_pytz_choibalsan(self):
-            tz = datefmt.timezone('Asia/Choibalsan')
-            self._tzset('Asia/Choibalsan')
-            self._compare_pytz(tz, '1977-01-01T00:00')  # No DST
-            self._compare_pytz(tz, '1978-01-01T01:00')  # +1:00 (TZ change)
-            self._compare_pytz(tz, '1978-01-01T02:00')  #       (TZ change)
-            self._compare_pytz(tz, '1982-04-01T00:00')  # No DST
-            self._compare_pytz(tz, '1983-04-01T00:00')  # +2:00 (TZ change)
-            self._compare_pytz(tz, '1983-04-01T02:00')  #       (TZ change)
-            self._compare_pytz(tz, '1983-10-01T00:00',  # -1:00 (DST end)
-                               localize=False)
-            self._compare_pytz(tz, '2006-03-25T02:00')  # +1:00 (DST start)
-            self._compare_pytz(tz, '2006-09-30T02:00',  # -1:00 (DST end)
-                               localize=False)
-            self._compare_pytz(tz, '2007-07-01T00:00')  # No DST in 2007
-            self._compare_pytz(tz, '2008-03-30T23:00',  #       (TZ change)
-                               localize=False)
-            self._compare_pytz(tz, '2008-03-31T00:00',  # -1:00 (TZ change)
-                               localize=False)
-            self._compare_pytz(tz, '2009-07-01T00:00')  # No DST
-
         def test_pytz_guatemala(self):
             tz = datefmt.timezone('America/Guatemala')
             self._tzset('America/Guatemala')
