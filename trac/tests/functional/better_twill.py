@@ -40,10 +40,16 @@ try:
 except ImportError:
     selenium = None
 
+
+_tidy_options = {
+    'escape-scripts': 0,
+    'drop-empty-elements': 0,
+}
 _curr = locale.setlocale(locale.LC_ALL, None)
 try:
     import tidylib
-    tidylib.tidy_document('<!DOCTYPE html><html><body></body></html>')
+    tidylib.tidy_document('<!DOCTYPE html><html><body></body></html>',
+                          _tidy_options)
 except ImportError:
     print("SKIP: validation of HTML output in functional tests"
           " (no tidylib installed)")
@@ -51,6 +57,9 @@ except ImportError:
 except OSError as e:
     print("SKIP: validation of HTML output in functional tests"
           " (no tidy dynamic library installed: %s)" % e)
+    tidy_document = None
+except ValueError as e:
+    print("SKIP: validation of HTML output in functional tests (%r)" % e)
     tidy_document = None
 else:
     if _curr == locale.setlocale(locale.LC_ALL, None):
@@ -562,11 +571,6 @@ if selenium:
                 url = urljoin(self.get_url(), url)
             return url
 
-        _tidy_options = {
-            'escape-scripts': 0,
-            'drop-empty-elements': 0,
-        }
-
         _doctype_re = re.compile(r'\s*<!DOCTYPE\b'.encode('ascii'))
 
         def _validate_html(self, source):
@@ -574,7 +578,7 @@ if selenium:
                 return
             if not self._doctype_re.match(source):
                 return
-            corrected, errors = tidy_document(source, self._tidy_options)
+            corrected, errors = tidy_document(source, _tidy_options)
             if errors:
                 errors = errors.splitlines()
                 url = self.write_source(source)

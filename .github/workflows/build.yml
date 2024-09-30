@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:  [ubuntu-22.04, macos-12]
+        os:  [ubuntu-22.04, macos-14]
         python-version: ['3.12']
         tests: [functional]
 
@@ -85,11 +85,11 @@ jobs:
         - {os: ubuntu-22.04, python-version: '3.7',  tracdb: ''}
         - {os: ubuntu-20.04, python-version: '3.6',  tracdb: ''}
         - {os: ubuntu-20.04, python-version: '3.5',  tracdb: ''}
-        - {os: macos-12,     python-version: '3.12', tracdb: sqlite,     tests: functional}
-        - {os: macos-12,     python-version: '3.12', tracdb: postgresql}
-        - {os: macos-12,     python-version: '3.12', tracdb: mysql}
-        - {os: macos-12,     python-version: '3.12', tracdb: ''}
-        - {os: macos-12,     python-version: '3.11', tracdb: ''}
+        - {os: macos-14,     python-version: '3.12', tracdb: sqlite,     tests: functional}
+        - {os: macos-14,     python-version: '3.12', tracdb: postgresql}
+        - {os: macos-14,     python-version: '3.12', tracdb: mysql}
+        - {os: macos-14,     python-version: '3.12', tracdb: ''}
+        - {os: macos-14,     python-version: '3.11', tracdb: ''}
 
     env:
       MATRIX_OS: ${{ matrix.os }}
@@ -160,8 +160,8 @@ jobs:
         - {os: ubuntu-22.04, python-version: '3.7'}
         - {os: ubuntu-20.04, python-version: '3.6'}
         - {os: ubuntu-20.04, python-version: '3.5'}
-        - {os: macos-12,     python-version: '3.12'}
-        - {os: macos-12,     python-version: '3.11'}
+        - {os: macos-14,     python-version: '3.12'}
+        - {os: macos-14,     python-version: '3.11'}
 
     env:
       MATRIX_OS: ${{ matrix.os }}
