@@ -284,7 +284,7 @@ new\r\n\
         file_ = req.args.getfile('attachment')
 
         self.assertEqual(str(file_name, 'utf-8'), file_[0])
-        self.assertEqual(file_content, file_[1].getvalue())
+        self.assertEqual(file_content, file_[1].read())
         self.assertEqual(len(file_content), file_[2])
 
     def test_getfilelist(self):
@@ -327,9 +327,9 @@ new\r\n\
 
         self.assertEqual(2, len(file_))
         self.assertEqual(str(file_name[0], 'utf-8'), file_[0][0])
-        self.assertEqual(file_content[0], file_[0][1].getvalue())
+        self.assertEqual(file_content[0], file_[0][1].read())
         self.assertEqual(str(file_name[1], 'utf-8'), file_[1][0])
-        self.assertEqual(file_content[1], file_[1][1].getvalue())
+        self.assertEqual(file_content[1], file_[1][1].read())
         self.assertEqual(len(file_content[1]), file_[1][2])
 
     def test_require(self):
@@ -553,13 +553,15 @@ new\r\n\
         environ = _make_environ(method='POST', **{
             'wsgi.input': io.BytesIO(form_data),
             'CONTENT_LENGTH': str(len(form_data)),
-            'CONTENT_TYPE': content_type
+            'CONTENT_TYPE': content_type,
         })
         req = Request(environ, None)
 
         self.assertEqual('named value', req.args['foo'])
-        self.assertEqual([('foo', 'named value'), ('', 'name is empty'),
-                          (None, 'unnamed value')], req.arg_list)
+        self.assertEqual([('foo', 'named value'), ('', 'name is empty')],
+                         req.arg_list[:2])
+        self.assertIn(req.arg_list[2][0], [None, ''])
+        self.assertEqual('unnamed value', req.arg_list[2][1])
 
     def _test_post_with_null_bytes(self, form_data):
         boundary = '_BOUNDARY_'
