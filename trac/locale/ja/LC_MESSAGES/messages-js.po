@@ -24,7 +24,7 @@ msgstr "コピー"
 
 #: trac/htdocs/js/admin_enums.js:11
 msgid "Revert changes"
-msgstr "変更をもとに戻す"
+msgstr "変更を元に戻す"
 
 #: tracopt/ticket/htdocs/ticketclone.js:34
 msgid "Create a new ticket from this comment"
