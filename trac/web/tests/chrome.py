@@ -1269,6 +1269,23 @@ class ChromeTemplateRenderingTestCase(unittest.TestCase):
         test(domain=None)
         test(domain='messages')
 
+    def test_filters_max_min(self):
+        template = textwrap.dedent("""\
+            ${names|map('capitalize')|max(default='(max)')}
+            ${names|map('capitalize')|min(default='(min)')}
+            ${names|reject('string')|max(default='(max)')}
+            ${names|reject('string')|min(default='(min)')}
+        """)
+        filename = 'ticket13773.html'
+        create_file(os.path.join(self.env.templates_dir, filename), template)
+
+        req = MockRequest(self.env)
+        data = {'names': ['alpha', 'beta', 'gamma']}
+        content = self.chrome.render_template(req, filename, data,
+                                              {'iterable': False})
+        self.assertEqual(['Gamma', 'Alpha', '(max)', '(min)'],
+                         str(content, 'utf-8').splitlines())
+
 
 def test_suite():
     suite = unittest.TestSuite()
