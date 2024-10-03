@@ -646,7 +646,8 @@ class EmailDistributor(Component):
             set_header(message, 'Cc', addresses=cc_addrs)
         if bcc_addrs:
             set_header(message, 'Bcc', addresses=bcc_addrs)
-        set_header(message, 'Reply-To', addresses=[smtp_replyto])
+        if smtp_replyto:
+            set_header(message, 'Reply-To', addresses=[smtp_replyto])
 
         for decorator in self.decorators:
             decorator.decorate_message(event, message, self._charset)
