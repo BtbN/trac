@@ -294,9 +294,9 @@ class PostgreSQLConnector(Component):
         version = None
         if hasattr(psycopg, 'libpq_version'):
             version = psycopg.libpq_version()
-        elif _libpq_pathname:
+        elif psycopg._psycopg.__file__:
             try:
-                lib = ctypes.CDLL(_libpq_pathname)
+                lib = ctypes.CDLL(psycopg._psycopg.__file__)
                 version = lib.PQlibVersion()
             except Exception as e:
                 self.log.warning("Exception caught while retrieving libpq's "
