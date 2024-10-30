@@ -1083,7 +1083,9 @@ class ChangesetModule(Component):
                            "on %(repos)s", rev=rev,
                            repos=reponame or _('(default)'))
             elif reponame:
-                errmsg = _("Repository '%(repo)s' not found", repo=reponame)
+                return tag.a(label, class_="changeset",
+                             title="changeset",
+                             href="https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=" + fragment)
             else:
                 errmsg = _("No default repository defined")
         except TracError as e:

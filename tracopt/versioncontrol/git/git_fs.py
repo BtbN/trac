@@ -287,8 +287,8 @@ class GitConnector(Component):
                          title=shorten_line(changeset.message),
                          href=formatter.href.changeset(sha, repos.reponame))
         except Exception as e:
-            return tag.a(label, class_='missing changeset',
-                         title=to_unicode(e), rel='nofollow')
+            return tag.a(label, class_='changeset',
+                         title='Changeset ' + sha, href="https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=" + sha)
 
     def get_wiki_syntax(self):
         yield (r'(?:\b|!)r?[0-9a-fA-F]{%d,40}\b' % self.wiki_shortrev_len,
