@@ -426,9 +426,11 @@ class Ticket(object):
         old_values = self._old
         self._old = {}
 
+        self.cur_cnum = res = int(cnum.rsplit('.', 1)[-1])
         for listener in TicketSystem(self.env).change_listeners:
             listener.ticket_changed(self, comment, author, old_values)
-        return int(cnum.rsplit('.', 1)[-1])
+        del self.cur_cnum
+        return res
 
     def _to_db_types(self, values):
         values = values.copy()
